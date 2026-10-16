@@ -60,8 +60,7 @@ impl State {
     /// Returns fresh shelves only for the same account and a nonforced read.
     fn cached(&self, account: &str, force: bool) -> Option<Shelves> {
         self.cached.as_ref().and_then(|(at, shelves)| {
-            (self.account == account && !force && at.elapsed() < CACHE_AGE)
-                .then(|| shelves.clone())
+            (self.account == account && !force && at.elapsed() < CACHE_AGE).then(|| shelves.clone())
         })
     }
 
@@ -220,10 +219,7 @@ fn longest_wait(results: [&Result<Vec<Playlist>, SectionError>; 2]) -> Option<Du
 }
 
 /// Reads every page of one Home section, in Spotify's order.
-async fn read_section(
-    request: &Request<'_>,
-    section: &str,
-) -> Result<Vec<Playlist>, SectionError> {
+async fn read_section(request: &Request<'_>, section: &str) -> Result<Vec<Playlist>, SectionError> {
     let mut playlists = Vec::new();
     let mut seen = HashSet::new();
     for page in 0..MAX_PAGES {
