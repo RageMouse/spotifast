@@ -4595,12 +4595,21 @@ mod tests {
         events: Vec<egui::Event>,
         view: fn(&mut App, &mut egui::Ui),
     ) -> Vec<(String, egui::Rect)> {
+        view_frame_sized(ctx, app, events, view, egui::vec2(1280.0, 2200.0))
+    }
+
+    /// Draws one frame of `view` in a window of `size`. Text below the
+    /// window is not painted, so a page checked whole needs room for it.
+    fn view_frame_sized(
+        ctx: &egui::Context,
+        app: &mut App,
+        events: Vec<egui::Event>,
+        view: fn(&mut App, &mut egui::Ui),
+        size: egui::Vec2,
+    ) -> Vec<(String, egui::Rect)> {
         let mut output = ctx.run_ui(
             egui::RawInput {
-                screen_rect: Some(egui::Rect::from_min_size(
-                    egui::Pos2::ZERO,
-                    egui::vec2(1280.0, 2200.0),
-                )),
+                screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, size)),
                 events,
                 ..Default::default()
             },
@@ -5635,8 +5644,10 @@ mod tests {
             app.settings.home = serde_json::from_str(&format!(
                 r#"{{"made_for_you":{{"visible":{made_for_you}}},"recommendations":{{"visible":{recommendations}}}}}"#
             )).unwrap();
-            view_frame(&ctx, &mut app, vec![], view);
-            let text = view_frame(&ctx, &mut app, vec![], view);
+            // Tall enough for every shelf down to Recommended for you.
+            let size = egui::vec2(1280.0, 3200.0);
+            view_frame_sized(&ctx, &mut app, vec![], view, size);
+            let text = view_frame_sized(&ctx, &mut app, vec![], view, size);
             for (label, expected) in [
                 ("Made for you", made_for_you),
                 ("Your top mixes", made_for_you),
