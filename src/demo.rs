@@ -121,6 +121,16 @@ const PLAYLISTS: &[&str] = &[
     "Kitchen jams",
 ];
 
+/// Your top mixes, named and described the way Spotify names its own.
+const TOP_MIXES: &[(&str, &str)] = &[
+    ("Downtempo Mix", "Bonobo, Khruangbin and Floating Points"),
+    ("Nils Frahm Mix", "Nils Frahm, Jon Hopkins and Four Tet"),
+    ("Electronic Mix", "Four Tet, Floating Points and Bonobo"),
+    ("Chill Mix", "Khruangbin, Sault and Nils Frahm"),
+    ("Hip Hop Mix", "Little Simz, Sault and Khruangbin"),
+    ("2010s Mix", "Jon Hopkins, Bonobo and Four Tet"),
+];
+
 fn artist_ref(index: usize) -> ArtistRef {
     ArtistRef {
         id: Some(format!("art{index}")),
@@ -226,6 +236,24 @@ fn playlist(index: usize) -> Playlist {
                 12_345 + index as u64
             },
         }),
+        ..Playlist::default()
+    }
+}
+
+fn top_mix(index: usize) -> Playlist {
+    let (name, artists) = TOP_MIXES[index % TOP_MIXES.len()];
+    Playlist {
+        id: format!("mix{index}"),
+        name: name.to_string(),
+        uri: format!("spotify:playlist:mix{index}"),
+        description: Some(artists.to_string()),
+        images: image(600 + index as u32),
+        owner: Owner {
+            id: Some("spotify".into()),
+            display_name: Some("Spotify".into()),
+            uri: None,
+        },
+        tracks: Some(TrackCount { total: 50 }),
         ..Playlist::default()
     }
 }
@@ -536,6 +564,7 @@ pub fn populate(app: &mut App) {
     app.home.top_songs_complete = true;
     app.home.recommendations = Loadable::Loaded(tracks.iter().skip(20).take(10).cloned().collect());
     app.home.made_for_you = Loadable::Loaded(playlists.iter().take(10).cloned().collect());
+    app.home.top_mixes = Loadable::Loaded((0..TOP_MIXES.len()).map(top_mix).collect());
 
     // Search.
     app.search.query = "Bonobo".into();
@@ -5610,6 +5639,7 @@ mod tests {
             let text = view_frame(&ctx, &mut app, vec![], view);
             for (label, expected) in [
                 ("Made for you", made_for_you),
+                ("Your top mixes", made_for_you),
                 ("Recommended for you", recommendations),
                 ("Liked Songs", true),
                 ("Recently played", true),
