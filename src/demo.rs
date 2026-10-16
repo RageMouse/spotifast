@@ -121,7 +121,6 @@ const PLAYLISTS: &[&str] = &[
     "Kitchen jams",
 ];
 
-/// Your top mixes, named and described the way Spotify names its own.
 const TOP_MIXES: &[(&str, &str)] = &[
     ("Downtempo Mix", "Bonobo, Khruangbin and Floating Points"),
     ("Nils Frahm Mix", "Nils Frahm, Jon Hopkins and Four Tet"),
@@ -4598,8 +4597,6 @@ mod tests {
         view_frame_sized(ctx, app, events, view, egui::vec2(1280.0, 2200.0))
     }
 
-    /// Draws one frame of `view` in a window of `size`. Text below the
-    /// window is not painted, so a page checked whole needs room for it.
     fn view_frame_sized(
         ctx: &egui::Context,
         app: &mut App,
@@ -5644,7 +5641,6 @@ mod tests {
             app.settings.home = serde_json::from_str(&format!(
                 r#"{{"made_for_you":{{"visible":{made_for_you}}},"recommendations":{{"visible":{recommendations}}}}}"#
             )).unwrap();
-            // Tall enough for every shelf down to Recommended for you.
             let size = egui::vec2(1280.0, 3200.0);
             view_frame_sized(&ctx, &mut app, vec![], view, size);
             let text = view_frame_sized(&ctx, &mut app, vec![], view, size);

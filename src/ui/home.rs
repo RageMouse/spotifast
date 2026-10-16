@@ -46,8 +46,6 @@ pub fn show(app: &mut App, ui: &mut egui::Ui) {
     quick_access(app, ui);
     ui.add_space(16.0);
 
-    // Your top mixes comes from the same personalized read, so the same
-    // preference hides it.
     if app.settings.home.made_for_you.visible {
         made_for_you(app, ui);
         top_mixes(app, ui);
@@ -256,8 +254,6 @@ fn made_for_you(app: &mut App, ui: &mut egui::Ui) {
     );
 }
 
-/// Renders Your top mixes once the session has read them. With no fallback
-/// there is nothing to wait for or retry, so the shelf shows only with cards.
 fn top_mixes(app: &mut App, ui: &mut egui::Ui) {
     let palette = app.palette;
     let Some(playlists) = app
@@ -278,7 +274,6 @@ fn top_mixes(app: &mut App, ui: &mut egui::Ui) {
     );
 }
 
-/// Draws a Home shelf's playlist cards, each with play, open and its menu.
 fn playlist_cards(app: &mut App, ui: &mut egui::Ui, menu: &str, playlists: &[Playlist]) {
     let palette = app.palette;
     for playlist in playlists {

@@ -623,8 +623,6 @@ pub struct HomeData {
     pub made_for_you_loading: bool,
     /// Whether playback was ready when the current shelf request began.
     pub made_for_you_session_requested: bool,
-    /// Your top mixes, which arrive with Made for you. With no fallback, the
-    /// shelf stays hidden until the session has read it once.
     pub top_mixes: Loadable<Vec<Playlist>>,
     /// Saved podcasts with their newest episodes, in library order, for the
     /// podcast shelf. A refresh replaces them only once it answers.

@@ -384,8 +384,6 @@ pub enum ApiResponse {
         generation: u64,
         personalized: bool,
         result: ApiResult<Vec<Playlist>>,
-        /// Your top mixes, read with the personalized shelf. It has no
-        /// fallback, so it fails whenever the session read does.
         top_mixes: ApiResult<Vec<Playlist>>,
     },
     MyPlaylists {

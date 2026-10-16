@@ -21,9 +21,6 @@ use crate::http::Http;
 
 const ENDPOINT: &str = "https://api-partner.spotify.com/pathfinder/v2/query";
 const MADE_FOR_YOU: &str = "spotify:section:0JQ5DAUnp4wcj0bCb3wh3S";
-// The artist, genre and decade mixes Spotify builds from the account's
-// listening. Spotify's web player opens this section from the shelf's
-// "Show all" link.
 const TOP_MIXES: &str = "spotify:section:0JQ5DAnM3wGh0gz1MXnu89";
 const QUERY_HASH: &str = "eb3fba2d388cf4fc4d696b1757a58584e9538a3b515ea742e9cc9465807340be";
 // Spotify DJ is a special context that librespot cannot play as a playlist.
@@ -44,8 +41,6 @@ pub struct MadeForYou {
 #[derive(Clone, Debug)]
 pub struct Shelves {
     pub made_for_you: Vec<Playlist>,
-    /// Read alongside Made for you. Its failure leaves Made for you intact,
-    /// since only Made for you has a fallback.
     pub top_mixes: Result<Vec<Playlist>, ApiError>,
 }
 
@@ -71,10 +66,8 @@ impl State {
     }
 }
 
-/// Why one Home section could not be read.
 #[derive(Debug)]
 enum SectionError {
-    /// Spotify answered 429, with the wait it asked for.
     RateLimited(Duration),
     Failed(ApiError),
 }
@@ -101,7 +94,6 @@ impl SectionError {
     }
 }
 
-/// What every section request of one read shares.
 struct Request<'a> {
     client: &'a reqwest::Client,
     token: &'a str,

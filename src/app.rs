@@ -6168,8 +6168,6 @@ impl App {
                     self.home.made_for_you_personalized = personalized;
                 }
                 self.home.made_for_you.refresh(result);
-                // Only a session read has top mixes, so a failed one keeps
-                // the cards already shown.
                 self.home.top_mixes.refresh(top_mixes);
                 if self.home.made_for_you_loading {
                     self.home.made_for_you_loading = false;
