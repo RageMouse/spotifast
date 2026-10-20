@@ -214,7 +214,7 @@ not queued after it.
 
 ## Search from a launcher
 
-**In development, not included in 0.8.0:** a Spotify search link opens Search
+A Spotify search link opens Search
 and fills the box without starting playback. To try it in a development build,
 set a launcher or keyboard shortcut to run:
 
@@ -725,7 +725,7 @@ does not take over HTTP or HTTPS associations.
 
 ## Playlist covers
 
-**In development, not included in 0.8.0:** open a playlist you own and choose
+Open a playlist you own and choose
 **Edit details → Change cover**. Select a
 JPEG or PNG, check the preview, then choose **Upload cover**. Cancelling the
 picker leaves your previous selection intact. An upload error keeps the
